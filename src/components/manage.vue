@@ -1,37 +1,35 @@
 <template>
   <el-container style="height: 100vh">
-    <!-- 左侧菜单部分 -->
-    <el-aside width="200px">
+      <el-header >
+        <div class="left">
+                <span @click="collapseMenu"><i :class="isCollapse ? 'el-icon-s-unfold' : 'el-icon-s-fold'"></i></span>
+                博客后台管理系统
+        </div>
+        <div class="right">
+            <i class="el-icon-rank"></i>
+            <i class="el-icon-bell"></i>
+            <span class="name">admin</span>
+        </div>
+      </el-header>
+    <el-container>
+      <el-aside :width="isCollapse?'64px':'200px'">
       <el-menu
+        :collapse-transition="false"
+        :collapse="isCollapse"
         @close="handleClose"
-        :default-openeds="['1']"
         background-color="#304156"
         text-color="#ddd"
         router
         ref="menus"
+        :default-active="activeIndex"
       >
-        <!-- 左侧子菜单 -->
-        <el-submenu index="1">
-          <template slot="title"
-            ><i class="el-icon-user"></i>个人博客后台</template
-          >
           <el-menu-item-group>
-            <el-menu-item index="/manage/manageHome">首页</el-menu-item>
-            <el-menu-item index="/manage/blogTable">博客总览</el-menu-item>
-            <el-menu-item index="/manage/createBlog">新增博客</el-menu-item>
-            <!-- <el-menu-item index="/manage/createBlog">新增博客</el-menu-item> -->
-            <!-- <el-menu-item index="1-2">选项2</el-menu-item> -->
+            <el-menu-item index="/manage/manageHome"><i class="el-icon-s-help"></i><span v-if="!isCollapse">首页</span></el-menu-item>
+            <el-menu-item index="/manage/blogTable"><i class="el-icon-reading"></i><span v-if="!isCollapse">博客总览</span></el-menu-item>
+            <el-menu-item index="/manage/createBlog"><i class="el-icon-edit-outline"></i><span v-if="!isCollapse">新增博客</span></el-menu-item>
           </el-menu-item-group>
-        </el-submenu>
       </el-menu>
     </el-aside>
-    <!-- 右侧内容区域 -->
-    <el-container>
-      <!-- 顶部内容区域 -->
-      <el-header style="text-align: right; font-size: 12px">
-        <span>Admin</span>
-      </el-header>
-      <!-- 中间主要内容区域 -->
       <el-main> 
           <router-view></router-view>
       </el-main>
@@ -41,44 +39,80 @@
 
 <script>
 export default {
+    data() {
+        return {
+            isCollapse: false, // 表示折叠还是展开
+            activeIndex: '/device_new/',
+            data:''
+        };
+    },
     methods:{
+        collapseMenu() {
+            this.isCollapse = !this.isCollapse // 布尔值取反
+        },
         handleClose(key, keyPath) {
             this.$refs.menus.open(keyPath);
         },
-        getBlog(){
-            this.$ajax({
-                url:'http://localhost:8080/article',
-                method:'get',
-                }).then(
-                    res => {
-                        console.log(res.data)
-                        },
-                    err => console.log(err.message)
-                )
-        }
+       
     },
     mounted(){
-        this.getBlog()
+        this.activeIndex = this.$route.path
+       
     }
 }
 </script>
 
 <style  scoped lang="scss">
-* {
-  margin: 0;
-  padding: 0;
-}
 .el-header {
-  background-color: #b3c0d1;
-  color: #333;
+  background-color: #242f42;
   line-height: 60px;
+  position: relative;
+  height: 70px!important;
 }
 .el-aside {
   color: #333;
   background-color: #304156;
+  transition: width 0.3s;
   .el-menu{
       border-right: none;
   }
 } 
-
+.left{
+    height: 70px;
+    display: flex;
+    flex-flow: row;
+    color: #fff;
+    width: 500px;
+    font-size: 22px;
+    align-items: center;
+    margin-right: 20px;
+    i{
+        margin-right: 20px;
+        cursor: pointer;
+    }
+}
+.right{
+    float: right; 
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: 70px;
+    width: 500px;
+    margin-left: auto;
+    color: #fff;
+    font-size: 25px;
+    >*{
+        margin-left: 20px;
+    }
+}
+.name{
+    font-size: 15px!important;
+}
+.el-header{
+    display: flex;
+    flex-flow: row;
+}
+.el-icon-rank{
+    transform: rotate(45deg);
+}
 </style>

@@ -3,6 +3,6 @@ module.exports = {
         hot:true,
         open : true,
         port : 8081,
-        host : "0.0.0.0"
+        host : "127.0.0.1"
     }
 }

@@ -21,7 +21,7 @@ export default {
 
 <style >
 *{
-  caret-color: transparent;
+ 
   margin: 0;
   padding: 0;
 }

@@ -128,7 +128,7 @@
         :title="drawer.title"
         :visible.sync="drawer.isShow"
         :direction="'ltr'"
-        :before-close="handleClose"
+        :before-close="drawer.isShow==false"
         :style="{'width':'2500px'}">
         <div class="content">
             <mavon-editor

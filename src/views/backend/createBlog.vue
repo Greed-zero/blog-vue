@@ -25,7 +25,12 @@
           </el-input> 
           <el-button size="small" @click="addTag()">增加tag</el-button>
           </el-form-item>    
-        <mavon-editor v-model="article.text"></mavon-editor>
+        <mavon-editor 
+        v-model="article.text"
+        ref=md 
+        @imgAdd="$imgAdd" 
+        @imgDel="$imgDel"
+        ></mavon-editor>
         <el-form-item class="bottom">
           <el-button type="primary" @click="addmit()">提交</el-button>
           <el-button >重置</el-button>
@@ -40,7 +45,6 @@
 export default {
     data() {
       return {
-        
         article:{
           "time":'',
           "title":'',
@@ -49,6 +53,7 @@ export default {
           "updatetime":'',
            "text": '',
         },
+        img_file: {},//存放图片
         tags:[],
         tag:'',
       }
@@ -104,6 +109,32 @@ export default {
             console.log(error);
           })
       },
+      $imgAdd(pos, $file) {
+        console.log("添加了图片")
+          // 第一步.将图片上传到服务器.
+          var formdata = new FormData();
+          formdata.append('image', $file);
+          console.log('formdata.get("image"):',formdata.get("image"))
+          this.img_file[pos] = $file;
+          this.$ajax({
+              url: 'http://localhost:8080/article/uploadimg',
+              method: 'post',
+              data: formdata,
+              headers: { 'Content-Type': 'multipart/form-data' },
+              // headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+          }).then(res => {
+              let _res = res.data;
+              // 第二步.将返回的url替换到文本原位置![...](0) -> ![...](url)
+              this.$refs.md.$img2Url(pos, _res.url);
+          },
+          err=>{
+            console.log(err)
+          })
+      },
+      $imgDel(pos) {
+          delete this.img_file[pos];
+          console.log("删除了图片")
+      }
       
     },
     mounted(){

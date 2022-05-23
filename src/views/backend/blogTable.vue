@@ -128,7 +128,7 @@
         :title="drawer.title"
         :visible.sync="drawer.isShow"
         :direction="'ltr'"
-        :before-close="drawer.isShow==false"
+       
         :style="{'width':'2500px'}">
         <div class="content">
             <mavon-editor
@@ -193,6 +193,7 @@ export default {
                     res => {
                         console.log("res.data:",res.data)
                         this.data = res.data.article
+                        
                         console.log("this.data:",this.data)
                         },
                     err => console.log(err.message)

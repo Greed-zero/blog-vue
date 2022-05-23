@@ -6,12 +6,16 @@ import manageHome from "@/views/backend/manageHome"
 import createBlog from "@/views/backend/createBlog"
 import blogTable from "@/views/backend/blogTable"
 import updateBlog from "@/views/backend/updateBlog"
+import p from "@/views/front/p/p.vue"
+import search from "@/views/front/search/search.vue"
+import archives from "@/views/front/archives/archives.vue"
+import about from "@/views/front/about/about.vue"
 const router = new VueRouter({
     routes:[
         {
             path:'/',
-            redirect:'/manage'
-            // redirect:'/home'
+            // redirect:'/manage'
+            redirect:'/home'
         },
         {
             path:'/home',
@@ -21,6 +25,22 @@ const router = new VueRouter({
                 {
                     path:'articles',
                     component:articles
+                },
+                {
+                    path:'p',
+                    component:p
+                },
+                {
+                    path:'search',
+                    component:search
+                },
+                {
+                    path:'archives',
+                    component:archives
+                },
+                {
+                    path:'about',
+                    component:about
                 }
             ]
         },

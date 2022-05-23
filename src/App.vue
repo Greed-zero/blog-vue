@@ -20,9 +20,19 @@ export default {
 </script>
 
 <style >
+@font-face {
+     font-family: 'Lato';
+    src: url('./assets/fontface/Lato-Medium-8.ttf');
+}
 *{
- 
   margin: 0;
   padding: 0;
+}
+body {
+    margin: 0;
+    font-family: 'Lato';
+    width: 100%;
+    height: 100%;
+    background-color: #F5F5FA;
 }
 </style>
